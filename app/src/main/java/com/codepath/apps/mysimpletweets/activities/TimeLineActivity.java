@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,6 +24,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -30,6 +39,7 @@ import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 import static com.codepath.apps.mysimpletweets.R.id.rvTweets;
+import static com.loopj.android.http.AsyncHttpClient.log;
 
 public class TimeLineActivity extends AppCompatActivity {
     View recyclerview;
@@ -75,10 +85,27 @@ public class TimeLineActivity extends AppCompatActivity {
 
 
         client = TwitterApp.getRestClient();
-        populateTimeline();
+
+        try {
+            loadTweets(readJsonFile());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // populateTimeline();  //TODO: uncomments this
+
 
 
     }
+
+    // Inflate the menu; this adds items to the action bar if it is present.
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_timeline, menu);
+        return true;
+    }
+
 
     private void initFloatingComposeButton() {
         //TODO
@@ -127,6 +154,46 @@ public class TimeLineActivity extends AppCompatActivity {
                 Log.e("ERROR", errorResponse.toString(),throwable);
             }
         });
+    }
+
+    public void loadTweets(String tweets) throws JSONException {
+        JSONArray response = new JSONArray(tweets);
+
+        for(int i=0;i<response.length();i++){
+            try {
+                Tweet tweet = Tweet.fromJSON(response.getJSONObject(i));
+                mTweets.add(tweet);
+                mTweetAdapter.notifyItemInserted(mTweets.size() - 1 );
+
+            }catch (JSONException e){
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public String readJsonFile() throws IOException {
+        InputStream is = getResources().openRawResource(R.raw.twitterresponse_5);
+        Writer writer = new StringWriter();
+        char[] buffer = new char[1024];
+        try {
+            Reader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            int n;
+            while ((n = reader.read(buffer)) != -1) {
+                writer.write(buffer, 0, n);
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            is.close();
+        }
+
+        String jsonString = writer.toString();
+        log.d("Response",jsonString);
+
+        return jsonString;
     }
 
 }

@@ -2,6 +2,7 @@ package com.codepath.apps.mysimpletweets.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,15 @@ import com.codepath.apps.mysimpletweets.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import static com.codepath.apps.mysimpletweets.models.SampleModel_Table.id;
 
 /**
@@ -112,6 +118,9 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public class ViewHolderNoMedia extends RecyclerView.ViewHolder {
+        @BindView(R.id.tvName)
+        TextView tvName;
+
         @BindView(R.id.tvUserName)
         TextView tvUserName;
 
@@ -121,8 +130,10 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         @BindView(R.id.tvBody)
         TextView tvBody;
 
-        View view;
+        @BindView(R.id.tvTimestamp)
+        TextView tvTimestamp;
 
+        View view;
 
         ViewHolderNoMedia(View itemView) {
             super(itemView);
@@ -133,6 +144,9 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     class ViewHolderWithMedia extends RecyclerView.ViewHolder {
+        @BindView(R.id.tvName)
+        TextView tvName;
+
         @BindView(R.id.tvUserName)
         TextView tvUserName;
 
@@ -141,6 +155,9 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         @BindView(R.id.tvBody)
         TextView tvBody;
+
+        @BindView(R.id.tvTimestamp)
+        TextView tvTimestamp;
 
         //TODO add media holder
 
@@ -159,9 +176,12 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         Tweet tweet = mTweets.get(position);
         if (tweet != null) {
             User user = tweet.getUser();
+            String relativeTimestamp = getRelativeTimeAgo(tweet.getCreatedAt());
 
             vh1.tvUserName.setText(user.getScreenName());
             vh1.tvBody.setText(tweet.getBody());
+            vh1.tvName.setText(user.getName());
+            vh1.tvTimestamp.setText(relativeTimestamp);
 
             Glide.with(getContext()).load(user.getProfileImageUrl()).fitCenter()
                     .into(vh1.ivProfileImage);
@@ -176,9 +196,12 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         Tweet tweet = mTweets.get(position);
         if (tweet != null) {
             User user = tweet.getUser();
+            String relativeTimestamp = getRelativeTimeAgo(tweet.getCreatedAt());
 
-            vh2.tvUserName.setText(user.getScreenName());
+            vh2.tvUserName.setText("@"+user.getScreenName());
             vh2.tvBody.setText(tweet.getBody());
+            vh2.tvName.setText(user.getName());
+            vh2.tvTimestamp.setText(relativeTimestamp);
 
             Glide.with(getContext()).load(user.getProfileImageUrl()).fitCenter()
                     .into(vh2.ivProfileImage);
@@ -191,5 +214,22 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void setOnTweetClickListener(OnTweetSelectedListener listener) {
         this.listener = listener;
+    }
+
+    public String getRelativeTimeAgo(String rawJsonDate) {
+        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+        SimpleDateFormat sf = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
+        sf.setLenient(true);
+
+        String relativeDate = "";
+        try {
+            long dateMillis = sf.parse(rawJsonDate).getTime();
+            relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
+                    System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS,DateUtils.FORMAT_ABBREV_RELATIVE).toString();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return relativeDate;
     }
 }
