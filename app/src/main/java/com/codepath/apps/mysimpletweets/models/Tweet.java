@@ -16,6 +16,10 @@ public class Tweet {
     String mCreatedAt;
     int isTweetWithMedia = 0; //TODO update
 
+    //needed by parceler
+    public Tweet() {
+    }
+
     public static Tweet fromJSON(JSONObject jsonObject) throws JSONException{
         Tweet tweet = new Tweet();
 
@@ -44,5 +48,21 @@ public class Tweet {
 
     public int isTweetWithMedia() {
         return isTweetWithMedia;
+    }
+
+    public void setBody(String mBody) {
+        this.mBody = mBody;
+    }
+
+    public void setUser(User mUser) {
+        this.mUser = mUser;
+    }
+
+    public void setCreatedAt(String mCreatedAt) {
+        this.mCreatedAt = mCreatedAt;
+    }
+
+    public void setIsTweetWithMedia(int isTweetWithMedia) {
+        this.isTweetWithMedia = isTweetWithMedia;
     }
 }

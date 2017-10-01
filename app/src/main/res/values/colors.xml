@@ -6,4 +6,5 @@
     <color name="offWhite">#e1e8ed</color>
     <color name="darkGrey">#657786</color>
     <color name="lightGrey">#aab8c2</color>
+    <color name="red">#ff0000</color>
 </resources>

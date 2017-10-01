@@ -14,6 +14,11 @@ public class User {
     long mUid;
     String mProfileImageUrl;
 
+
+    // empty constructor needed by the Parceler library
+    public User() {
+    }
+
     public static User fromJSON(JSONObject jsonObject) throws JSONException {
         User user = new User();
 

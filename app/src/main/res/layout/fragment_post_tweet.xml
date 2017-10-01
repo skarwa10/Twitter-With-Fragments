@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.codepath.apps.mysimpletweets.fragments.PostTweetFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <EditText
+        android:id="@+id/etTweet"
+        android:layout_width="match_parent"
+        android:layout_height="290dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ivProfileImage"
+        android:layout_marginTop="17dp"
+        android:ems="10"
+        android:gravity="start"
+        android:cursorVisible="true"
+        android:hint="@string/compose_hint"
+        android:inputType="text"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+    <Button
+        android:id="@+id/btnTweet"
+        android:layout_width="137dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/twitter_blue"
+        android:text="@string/tweetBtnLabel"
+        android:textColor="@color/black"
+        style="@style/NiceButton"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_below="@+id/etTweet"
+        android:layout_alignEnd="@+id/ivProfileImage"
+        android:layout_marginEnd="11dp" />
+
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:inputType="text"
+        android:gravity="center"
+        android:text="@string/maxCharCount"
+        android:textAlignment="center"
+        android:textColor="@color/lightGrey"
+        android:layout_below="@+id/etTweet"
+        android:layout_toStartOf="@+id/btnTweet" />
+
+    <ImageView
+        android:id="@+id/ivCloseCompose"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="11dp"
+        android:src = "@drawable/ic_close_compose"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/ivProfileImage"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="11dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_alignTop="@+id/ivCloseCompose"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

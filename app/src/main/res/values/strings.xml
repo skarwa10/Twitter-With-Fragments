@@ -8,4 +8,10 @@
     <string name="title_activity_time_line">Time Line</string>
     <string name="twitter_icon_title">Twitter</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="compose_hint">Whats Happenning ?</string>
+    <string name="tweetBtnLabel">TWEET</string>
+    <string name="maxCharCount">140</string>
+
 </resources>

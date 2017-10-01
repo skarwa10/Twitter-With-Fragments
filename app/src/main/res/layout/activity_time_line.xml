@@ -28,7 +28,7 @@
         android:layout_margin="@dimen/fab_margin"
         android:scaleType="center"
         android:backgroundTint="@color/twitter_blue"
-        android:src="@drawable/ic_action_compose" />
+        android:src="@drawable/ic_compose_tweet" />
 
     <include
         android:id="@+id/recyclerview_layout"
