@@ -27,7 +27,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import static com.codepath.apps.mysimpletweets.models.SampleModel_Table.id;
 
 /**
  * Created by skarwa on 9/28/17.
@@ -226,10 +225,36 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             long dateMillis = sf.parse(rawJsonDate).getTime();
             relativeDate = DateUtils.getRelativeTimeSpanString(dateMillis,
                     System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS,DateUtils.FORMAT_ABBREV_RELATIVE).toString();
+
+            relativeDate = relativeDate.replaceAll("\\s+","");
+            if(relativeDate.matches("(.*)min.ago")){
+                relativeDate =  relativeDate.replace("min.ago","m");
+            } else if(relativeDate.matches("(.*)hr.ago")){
+                relativeDate = relativeDate.replace("hr.ago","h");
+            } else if(relativeDate.matches("(.*)sec.ago")){
+                relativeDate = relativeDate.replace("sec.ago","s");
+            } else if(relativeDate.matches("In(.*)sec")){
+                relativeDate = relativeDate.replace("In","");
+                relativeDate = relativeDate.replace("sec","s");
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return relativeDate;
     }
+
+    // Clean all elements of the recycler
+    public void clear() {
+        int size = mTweets.size();
+        mTweets.clear();
+        notifyItemRangeRemoved(0,size);
+    }
+
+    // Add a list of items -- change to type used
+    public void addAll(List<Tweet> list) {
+        int curSize =  mTweets.size();
+        mTweets.addAll(list);
+        notifyItemRangeInserted(curSize,mTweets.size());
+    }
+
 }

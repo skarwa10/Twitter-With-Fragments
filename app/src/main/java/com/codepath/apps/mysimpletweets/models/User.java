@@ -1,8 +1,14 @@
 package com.codepath.apps.mysimpletweets.models;
 
+import com.codepath.apps.mysimpletweets.utils.TweetConstants;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcel;
+
+import static com.codepath.apps.mysimpletweets.utils.TweetConstants.NAME_KEY;
+import static com.codepath.apps.mysimpletweets.utils.TweetConstants.PROFILE_IMAGE_URL;
+import static com.codepath.apps.mysimpletweets.utils.TweetConstants.SCREEN_NAME_KEY;
 
 /**
  * Created by skarwa on 9/27/17.
@@ -14,7 +20,6 @@ public class User {
     long mUid;
     String mProfileImageUrl;
 
-
     // empty constructor needed by the Parceler library
     public User() {
     }
@@ -22,10 +27,10 @@ public class User {
     public static User fromJSON(JSONObject jsonObject) throws JSONException {
         User user = new User();
 
-        user.mName =jsonObject.getString("name");
-        user.mScreenName = jsonObject.getString("screen_name");
-        user.mUid = jsonObject.getLong("id");
-        user.mProfileImageUrl = jsonObject.getString("profile_image_url");
+        user.mName =jsonObject.getString(NAME_KEY);
+        user.mScreenName = jsonObject.getString(SCREEN_NAME_KEY);
+        user.mUid = jsonObject.getLong(TweetConstants.ID_KEY);
+        user.mProfileImageUrl = jsonObject.getString(PROFILE_IMAGE_URL);
         return user;
     }
 

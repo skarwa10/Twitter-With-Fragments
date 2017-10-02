@@ -24,19 +24,16 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">@color/twitter_blue</item>
-        <item name="android:titleTextStyle">@style/MyActionBar.TitleTextStyle</item>
+    <style name="MyActionBar">
+        <item name="android:background">@android:color/white</item>
+
+        <item name="windowNoTitle">true</item>
 
         <!-- Support library compatibility -->
-        <item name="background">@color/black</item>
-        <item name="titleTextStyle">@style/MyActionBar.TitleTextStyle</item>
+
     </style>
 
-    <style name="MyActionBar.TitleTextStyle"
-        parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/black</item>
-    </style>
+
 
     <style name="NiceButton" parent="@android:style/Widget.Button">
         <item name="android:gravity">center_vertical|center_horizontal</item>

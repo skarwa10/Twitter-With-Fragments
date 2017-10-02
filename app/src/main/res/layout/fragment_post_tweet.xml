@@ -19,7 +19,7 @@
         android:gravity="start"
         android:cursorVisible="true"
         android:hint="@string/compose_hint"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <Button
@@ -29,7 +29,7 @@
         android:backgroundTint="@color/twitter_blue"
         android:text="@string/tweetBtnLabel"
         android:textColor="@color/black"
-        style="@style/NiceButton"
+        android:background="@color/twitter_blue"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
         android:layout_below="@+id/etTweet"

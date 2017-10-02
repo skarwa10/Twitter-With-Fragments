@@ -2,6 +2,7 @@ package com.codepath.apps.mysimpletweets.network;
 
 import android.content.Context;
 
+import com.codepath.apps.mysimpletweets.utils.FetchTweet;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.oauth.OAuthBaseClient;
 import com.github.scribejava.apis.TwitterApi;
@@ -42,12 +43,20 @@ public class TwitterClient extends OAuthBaseClient {
 						context.getString(R.string.intent_scheme), context.getPackageName(), FALLBACK_URL));
 	}
 	// API to get Tweets from Timeline
-	public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+	public void getHomeTimeline(FetchTweet tweetType, long since_id, long max_id, AsyncHttpResponseHandler handler) {
 		String apiUrl = getApiUrl("/statuses/home_timeline.json");
 		// Can specify query string params directly or through RequestParams.
+
 		RequestParams params = new RequestParams();
-		params.put("count", "5");
-		params.put("since_id",1);
+		params.put("count", "25");
+		if(tweetType.equals(FetchTweet.FIRST_LOAD)) {
+			params.put("since_id",1);
+		} else if(tweetType.equals(FetchTweet.REFRESH_NEW_TWEETS)){
+			params.put("since_id",since_id);
+		} else if(tweetType.equals(FetchTweet.SCROLL_OLD_TWEETS)){ //load old tweets
+			//params.put("since_id", since_id);
+			params.put("max_id", max_id);
+		}
 		client.get(apiUrl, params, handler);
 	}
 
