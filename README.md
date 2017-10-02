@@ -45,9 +45,10 @@ The following **bonus** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [X] List anything else that you can get done to improve the app functionality!
 - Butterknife -> for data binding.
 - LinkifiedTextView - > to handle proper functioning of links in text body and ensure on click events are handled properly..in listview text.
+- Used Shared Preferences to save draft Tweet.
 
 ## Video Walkthrough
 
@@ -69,9 +70,8 @@ Describe any challenges encountered while building the app.
 - [Glide](https://github.com/bumptech/glide) -Image loading and caching library for Android
 - [Parceler](https://github.com/johncarl81/parceler) - used for serialization of models
 - [RecyclerView](http://guides.codepath.com/android/Using-the-RecyclerView)
-- [CoordinatorLayout]
-- [SwipeRefreshLayout]
-- [Butterknife]
+- [ConstraintLayout](https://developer.android.com/reference/android/support/constraint/ConstraintLayout.html)
+- [Butterknife](http://guides.codepath.com/android/Reducing-View-Boilerplate-with-Butterknife)
 
 ## License
 
