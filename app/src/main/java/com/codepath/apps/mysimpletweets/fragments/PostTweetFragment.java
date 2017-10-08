@@ -181,8 +181,8 @@ public class PostTweetFragment extends DialogFragment {
                 alertDialogBuilder.setPositiveButton(TweetConstants.OK_BUTTON_VALUE,  new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        OnComposeCloseListener listener = (OnComposeCloseListener) getActivity();
-                        listener.onComposeTextSave(composeText);
+                        mOnComposeCloseListener = (OnComposeCloseListener) getActivity();
+                        mOnComposeCloseListener.onComposeTextSave(composeText);
                         if (dialog != null) {
                             dialog.dismiss();
                         }
@@ -243,8 +243,8 @@ public class PostTweetFragment extends DialogFragment {
                 try {
                     tweet = Tweet.fromJSON(response);
 
-                    OnPostTweetListener listener = (OnPostTweetListener) getActivity();
-                    listener.onPostTweet(tweet);
+                    mPostTweetListener = (OnPostTweetListener) getActivity();
+                    mPostTweetListener.onPostTweet(tweet);
 
                     dismiss();
 
@@ -260,16 +260,6 @@ public class PostTweetFragment extends DialogFragment {
         });
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnPostTweetListener {
         void onPostTweet(Tweet tweet);
     }

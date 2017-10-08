@@ -17,6 +17,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
@@ -52,13 +53,13 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
 
 	private void initUserDetails() {
-		client.getUserTimeline(new JsonHttpResponseHandler() {
+		client.getUser(new JsonHttpResponseHandler() {
 
 			@Override
-			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-				Log.d("DEBUG", response.toString());
+			public void onSuccess(int statusCode, Header[] headers, JSONObject jsonObject) {
+				Log.d("DEBUG", jsonObject.toString());
 				try {
-					loggedInUser = User.fromJSON(response.getJSONObject(0).getJSONObject("user"));
+					loggedInUser = User.fromJSON(jsonObject);
 
 					Intent i = new Intent(getApplicationContext(), TimeLineActivity.class);
 					i.putExtra(TweetConstants.USER_OBJ, Parcels.wrap(loggedInUser));
@@ -70,7 +71,17 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 			}
 
 			@Override
-			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {
+			public void onSuccess(int statusCode, Header[] headers, String responseString) {
+				Log.d("DEBUG", responseString.toString());
+			}
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+				Log.d("DEBUG", response.toString());
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
 				Log.e("ERROR", errorResponse.toString(), throwable);
 			}
 		});

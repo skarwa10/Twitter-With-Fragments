@@ -16,53 +16,8 @@
         android:backgroundTint="@color/twitter_blue"
         android:src="@drawable/ic_compose_tweet" />
 
-    <android.support.design.widget.AppBarLayout
-        style="@style/MyActionBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentInsetLeft="0dp"
-            android:contentInsetStart="0dp"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            android:contentInsetRight="0dp"
-            android:contentInsetEnd="0dp"
-            app:contentInsetRight="0dp"
-            app:contentInsetEnd="0dp"
-            app:layout_scrollFlags="scroll|enterAlways"
-            android:weightSum="1">
-
-            <ImageView
-                android:id="@+id/ivProfilePic"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
-                android:layout_gravity="left"
-                android:src="@mipmap/ic_launcher"
-                android:layout_weight="0.02" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_gravity="left"
-                android:text="@string/title_activity_time_line" />
-
-        </android.support.v7.widget.Toolbar>
-
-        <!--app:popupTheme="@style/AppTheme.PopupOverlay" />-->
-
-    </android.support.design.widget.AppBarLayout>
-
     <include
-        android:id="@+id/recyclerview_layout"
+        android:id="@+id/tablayout"
         layout="@layout/content_time_line" />
 
 </android.support.design.widget.CoordinatorLayout>

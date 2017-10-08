@@ -3,6 +3,7 @@ package com.codepath.apps.mysimpletweets.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +26,7 @@ import static com.codepath.apps.mysimpletweets.R.id.etTweet;
 import static com.codepath.apps.mysimpletweets.R.id.tvBody;
 import static com.codepath.apps.mysimpletweets.utils.TweetConstants.TWEET_OBJ;
 import static com.raizlabs.android.dbflow.config.FlowLog.Level.I;
+import android.support.v7.widget.Toolbar;
 
 public class TweetDetailActivity extends AppCompatActivity {
 
@@ -53,11 +55,17 @@ public class TweetDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tweet_detail);
 
+        // Find the toolbar view inside the activity layout
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         tweet = Parcels.unwrap(getIntent().getParcelableExtra(TWEET_OBJ));
 
         ButterKnife.bind(this);
 
         generateDetailTweetView();
+        getSupportActionBar().setTitle("Tweet");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void generateDetailTweetView(){

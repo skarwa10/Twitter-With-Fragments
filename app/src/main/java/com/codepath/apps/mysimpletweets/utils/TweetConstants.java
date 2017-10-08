@@ -14,10 +14,14 @@ public class TweetConstants {
     public static final String TEXT_KEY = "text";
     public static final String ID_KEY = "id";
     public static final String CREATED_AT = "created_at";
-    public static final String USER_KEY = "user";
+    public static final String RETWEETED = "retweeted";
+    public static final String FAVORITED = "favorited";
+    public static final String RETWEET_COUNT = "retweet_count";
+    public static final String FAVORITE_COUNT = "favorite_count";
     public static final String EXTENDED_ENTITIES_KEY = "extended_entities";
-    public static final String MEDIA = "media";
 
+    public static final String MEDIA = "media";
+    public static final String MEDIA_ID = "id";
     public static final String MEDIA_URL = "media_url";
     public static final String MEDIA_TYPE = "type";
     public static final String MEDIA_TYPE_PHOTO = "photo";
@@ -27,9 +31,15 @@ public class TweetConstants {
     public static final String OK_BUTTON_VALUE = "OK";
     public static final String CANCEL_BUTTON_VALUE = "Cancel";
 
+    public static final String USER_KEY = "user";
+    public static final String VERIFIED = "verified";
+    public static final String USER_TAGLINE = "description";
+    public static final String FOLLOWERS_COUNT = "followers_count";
+    public static final String FOLLOWING_COUNT = "friends_count";
     public static final String NAME_KEY ="name";
     public static final String SCREEN_NAME_KEY = "screen_name";
     public static final String PROFILE_IMAGE_URL = "profile_image_url";
+    public static final String PROFILE_BANNER_URL = "profile_banner_url";
 
     //public static final String
 }

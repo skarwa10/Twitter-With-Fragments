@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.apps.mysimpletweets.models.User;
+import com.raizlabs.android.dbflow.sql.language.Delete;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,24 +30,34 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.codepath.apps.mysimpletweets.R.id.ivProfileImage;
+import static com.codepath.apps.mysimpletweets.utils.TweetType.NO_MEDIA;
+
 /**
  * Created by skarwa on 9/28/17.
  */
 
 public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private final int HAS_MEDIA= 1, NO_MEDIA = 0;
+    private final int HAS_MEDIA= 0, NO_MEDIA = 1;
     private List<Tweet> mTweets;
     private Context mContext;
-    private OnTweetSelectedListener listener;
+    private OnTweetSelectedListener onTweetSelectedlistener;
+    private OnProfileImageSelectedListener onProfileImageSelectedListener;
+
+    public interface OnProfileImageSelectedListener {
+        void onProfileImageSelected(User user);
+    }
 
     public interface OnTweetSelectedListener {
         void onTweetSelected(Tweet article);
     }
 
     // Pass in the contact array into the constructor
-    public TweetAdapter(Context context, ArrayList<Tweet> tweets) {
+    public TweetAdapter(Context context, ArrayList<Tweet> tweets,OnProfileImageSelectedListener listener,OnTweetSelectedListener onTweetSelectedListener) {
         mTweets = tweets;
         mContext = context;
+        this.onProfileImageSelectedListener = listener;
+        this.onTweetSelectedlistener = onTweetSelectedListener;
     }
 
     @Override
@@ -101,9 +113,9 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public int getItemViewType(int position) {
         if(mTweets.get(position)!=null){
-            return mTweets.get(position).isTweetWithMedia();  //TODO
+            return mTweets.get(position).getType().ordinal();
         }
-        return 0;
+        return 1;
     }
 
 
@@ -138,7 +150,6 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             super(itemView);
             view= itemView;
             ButterKnife.bind(this, itemView);
-
         }
     }
 
@@ -162,12 +173,10 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         View view;
 
-
         ViewHolderWithMedia(View itemView) {
             super(itemView);
             view= itemView;
             ButterKnife.bind(this, itemView);
-
         }
     }
 
@@ -177,7 +186,7 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             User user = tweet.getUser();
             String relativeTimestamp = getRelativeTimeAgo(tweet.getCreatedAt());
 
-            vh1.tvUserName.setText(user.getScreenName());
+            vh1.tvUserName.setText("@"+user.getScreenName());
             vh1.tvBody.setText(tweet.getBody());
             vh1.tvName.setText(user.getName());
             vh1.tvTimestamp.setText(relativeTimestamp);
@@ -185,8 +194,10 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             Glide.with(getContext()).load(user.getProfileImageUrl()).fitCenter()
                     .into(vh1.ivProfileImage);
 
+            vh1.ivProfileImage.setOnClickListener(v -> onProfileImageSelectedListener.onProfileImageSelected(tweet.getUser()));
+
             vh1.view.setOnClickListener(v -> {
-                listener.onTweetSelected(tweet);
+                onTweetSelectedlistener.onTweetSelected(tweet);
             });
         }
     }
@@ -205,14 +216,17 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             Glide.with(getContext()).load(user.getProfileImageUrl()).fitCenter()
                     .into(vh2.ivProfileImage);
 
+            vh2.ivProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onProfileImageSelectedListener.onProfileImageSelected(tweet.getUser());
+                }
+            });
+
             vh2.view.setOnClickListener(v -> {
-                listener.onTweetSelected(tweet);
+                onTweetSelectedlistener.onTweetSelected(tweet);
             });
         }
-    }
-
-    public void setOnTweetClickListener(OnTweetSelectedListener listener) {
-        this.listener = listener;
     }
 
     public String getRelativeTimeAgo(String rawJsonDate) {
@@ -236,6 +250,8 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             } else if(relativeDate.matches("In(.*)sec")){
                 relativeDate = relativeDate.replace("In","");
                 relativeDate = relativeDate.replace("sec","s");
+            } else if(relativeDate.matches("(.*)daysago")){
+                relativeDate = relativeDate.replace("daysago","d");
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -246,6 +262,7 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     // Clean all elements of the recycler
     public void clear() {
         int size = mTweets.size();
+
         mTweets.clear();
         notifyItemRangeRemoved(0,size);
     }
@@ -254,7 +271,11 @@ public class TweetAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void addAll(List<Tweet> list) {
         int curSize =  mTweets.size();
         mTweets.addAll(list);
-        notifyItemRangeInserted(curSize,mTweets.size());
+        notifyItemRangeInserted(curSize,list.size());
+    }
+
+    public long getOldestTweetId(){
+        return mTweets.get(getItemCount() - 1).getUid();
     }
 
 }
