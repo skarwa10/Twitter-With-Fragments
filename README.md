@@ -43,13 +43,15 @@ The following **additional** features are implemented:
 * [X] List anything else that you can get done to improve the app functionality!
 - Butterknife
 - Retrolambda 
-- swipe refresh 
+- Swipe refresh implemented
+- Character count while composing
+- save composed tweets 
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/0jwCnvi' width='600'  />
+<img src='http://i.imgur.com/0jwCnvi' width='600'/>
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
