@@ -80,8 +80,6 @@ public abstract class TweetsListFragment extends Fragment implements TweetAdapte
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
 
-                //((TimeLineActivity)getActivity()).showProgressBar();
-
                 long since_id = 1;
                 long max_id = 1;
                 if (mTweetAdapter.getItemCount() > 0) {
@@ -107,6 +105,7 @@ public abstract class TweetsListFragment extends Fragment implements TweetAdapte
         mScrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             public void onLoadMore(final int page, int totalItemsCount, final RecyclerView view) {
                 //int curSize = mTweetAdapter.getItemCount();
+
                 long max_id = mTweetAdapter.getOldestTweetId() - 1;
                 populateTimeline(FetchTweet.SCROLL_OLD_TWEETS, 1, max_id);
             }
@@ -124,17 +123,9 @@ public abstract class TweetsListFragment extends Fragment implements TweetAdapte
         if (type.equals(FetchTweet.FIRST_LOAD)) {
 
             try {
-                //mTweetAdapter.clear();
-                //mScrollListener.resetState();
-
-
-
-
                 List<Tweet> tweets = loadTweets(response.toString());
                 mTweets.addAll(tweets);
                 mTweetAdapter.notifyItemRangeInserted(0, tweets.size());
-
-                //((TimeLineActivity)getActivity()).hideProgressBar();
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -143,18 +134,20 @@ public abstract class TweetsListFragment extends Fragment implements TweetAdapte
 
             // Remember to CLEAR OUT old items before appending in the new ones
 
-            mTweetAdapter.clear();
-            mScrollListener.resetState();
+
             try {
                 List<Tweet> tweets = loadTweets(response.toString());
-                // ...the data has come back, add new items to your adapter...
-                // mTweetAdapter.addAll(tweets);
-                mTweets.addAll(tweets);
-                mTweetAdapter.notifyItemRangeInserted(0, tweets.size());
+                if(tweets.size() >=1){
+                    mTweetAdapter.clear();
+                    mScrollListener.resetState();
+                    // ...the data has come back, add new items to your adapter...
+                    //mTweetAdapter.addAll(tweets);
+                    mTweets.addAll(tweets);
+                    mTweetAdapter.notifyItemRangeInserted(0, tweets.size());
 
+                }
                 // Now we call setRefreshing(false) to signal refresh has finished
                 swipeContainer.setRefreshing(false);
-                //((TimeLineActivity)getActivity()).hideProgressBar();
             } catch (JSONException e) {
                 Log.e("ERROR", e.getMessage(), e.getCause());
             }
@@ -166,7 +159,6 @@ public abstract class TweetsListFragment extends Fragment implements TweetAdapte
                 List<Tweet> tweets = loadTweets(response.toString());
                 mTweets.addAll(tweets);
                 mTweetAdapter.notifyItemRangeInserted(curSize, tweets.size());
-                //((TimeLineActivity)getActivity()).hideProgressBar();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -2,6 +2,7 @@ package com.codepath.apps.mysimpletweets.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -66,6 +67,13 @@ public class TweetDetailActivity extends AppCompatActivity {
         generateDetailTweetView();
         getSupportActionBar().setTitle("Tweet");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void generateDetailTweetView(){

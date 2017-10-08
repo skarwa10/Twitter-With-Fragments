@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.codepath.apps.mysimpletweets.activities.TimeLineActivity;
 import com.codepath.apps.mysimpletweets.application.TwitterApp;
 import com.codepath.apps.mysimpletweets.network.TwitterClient;
 import com.codepath.apps.mysimpletweets.utils.FetchTweet;
@@ -42,6 +43,7 @@ public class MentionsTimelineFragment extends TweetsListFragment {
                 Log.d("DEBUG", response.toString());
 
                 addItems(type,response);
+                ((TimeLineActivity)getActivity()).hideProgressBar();
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {

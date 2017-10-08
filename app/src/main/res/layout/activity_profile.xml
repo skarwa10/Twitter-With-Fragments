@@ -89,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="11dp"
-            android:text="5"
+            android:inputType="number"
             android:layout_above="@+id/flContainer"
             android:layout_alignParentStart="true"
             android:layout_marginStart="11dp" />
@@ -110,8 +110,9 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/textView2"
             android:layout_marginStart="38dp"
+            android:inputType="number"
             android:layout_toEndOf="@+id/textView2"
-            android:text="10" />
+           />
 
         <TextView
             android:id="@+id/tvFollowersLabel"

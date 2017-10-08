@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -60,9 +61,11 @@ public class TimeLineActivity extends AppCompatActivity implements PostTweetFrag
     ImageView ivProfilePic;
 
     User loggedInUser;
+    Menu menu;
     MenuItem miActionProgressItem;
     SharedPreferences draftTweets;
     IncludedLayout includedTabLayout;
+    SearchView mSearchView;
 
     static class IncludedLayout {
         @BindView(R.id.sliding_tabs)
@@ -119,16 +122,28 @@ public class TimeLineActivity extends AppCompatActivity implements PostTweetFrag
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_timeline, menu);
-        return true;
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        mSearchView = (SearchView) getActionView(searchItem);
+        mSearchView.setOnQueryTextListener(createQueryTextListener());
+        mSearchView.setOnCloseListener(createOnCloseListener());
+        this.menu = menu;
+
+      //  searchItem.expandActionView();
+      //  mSearchView.requestFocus();
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        // Store instance of the menu item containing progress
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
-        // Extract the action-view from the menu item
+
+        // Store instance of the menu item containing progress
         ProgressBar v = (ProgressBar) getActionView(miActionProgressItem);
         // Return to finish
+
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -139,6 +154,45 @@ public class TimeLineActivity extends AppCompatActivity implements PostTweetFrag
         i.putExtra(TweetConstants.TWEET_OBJ, Parcels.wrap(tweet));
         startActivity(i);
     }
+
+    public SearchView.OnQueryTextListener createQueryTextListener() {
+        return new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // perform query here
+
+                showProgressBar();
+
+                //clear Adapter
+               /* mArticleAdapter.clear();
+                // 3. Reset endless scroll listener when performing a new search
+                mScrollListener.resetState();
+
+                queryString = query;
+
+                fetchArticles(0);*/
+
+                hideProgressBar();
+                mSearchView.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        };
+    }
+
+    public SearchView.OnCloseListener createOnCloseListener() {
+        return () -> {
+            Log.i("SearchView:", "onClose");
+            mSearchView.onActionViewCollapsed();
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            return false;
+        };
+    }
+
 
 
     @Override

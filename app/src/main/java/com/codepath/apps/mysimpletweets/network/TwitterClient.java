@@ -53,7 +53,7 @@ public class TwitterClient extends OAuthBaseClient {
 			params.put("since_id",1);
 		} else if(tweetType.equals(FetchTweet.REFRESH_NEW_TWEETS)){
 			params.put("since_id",since_id);
-			params.put("max_id", max_id);
+			//params.put("max_id", max_id);
 		} else if(tweetType.equals(FetchTweet.SCROLL_OLD_TWEETS)){ //load old tweets
 			params.put("max_id", max_id);
 		}
@@ -83,11 +83,19 @@ public class TwitterClient extends OAuthBaseClient {
 		client.post(apiUrl, params, handler);
 	}
 
-	public void getUserTimeline(String screenName,AsyncHttpResponseHandler handler){
+	public void getUserTimeline(FetchTweet tweetType, long since_id, long max_id,String screenName,AsyncHttpResponseHandler handler){
 		String apiUrl = getApiUrl("/statuses/user_timeline.json");
 		RequestParams params = new RequestParams();
 		params.put("count", 25);
 		params.put("screen_name",screenName);
+
+		if(tweetType.equals(FetchTweet.FIRST_LOAD)) {
+			params.put("since_id",1);
+		} else if(tweetType.equals(FetchTweet.REFRESH_NEW_TWEETS)){
+			params.put("since_id",since_id);
+		} else if(tweetType.equals(FetchTweet.SCROLL_OLD_TWEETS)){ //load old tweets
+			params.put("max_id", max_id);
+		}
 		client.get(apiUrl,params, handler);
 	}
 

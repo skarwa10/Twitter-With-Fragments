@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.codepath.apps.mysimpletweets.activities.TimeLineActivity;
 import com.codepath.apps.mysimpletweets.application.TwitterApp;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.apps.mysimpletweets.network.TwitterClient;
@@ -46,6 +47,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
     }
 
     public void populateTimeline(FetchTweet type, long since_id, long max_id) {
+        //((TimeLineActivity)getContext()).showProgressBar();
         client.getHomeTimeline(type, since_id, max_id, new JsonHttpResponseHandler() {
 
             @Override
@@ -53,6 +55,7 @@ public class HomeTimelineFragment extends TweetsListFragment {
                 Log.d("DEBUG", response.toString());
 
                 addItems(type,response);
+                ((TimeLineActivity)getActivity()).hideProgressBar();
             }
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONArray errorResponse) {

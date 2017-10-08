@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/action_search"
-        android:icon="@drawable/ic_search_black"
+        android:icon="@drawable/ic_search_white"
         android:title="@string/search"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
@@ -12,7 +12,6 @@
         android:id="@+id/miActionProgress"
         android:title="@string/loading"
         android:visible="false"
-        android:orderInCategory="100"
         app:showAsAction="always"
         app:actionLayout="@layout/action_view_progress" />
 

@@ -4,9 +4,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -22,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static android.os.Build.VERSION_CODES.N;
+import static android.support.v4.view.MenuItemCompat.getActionView;
 
 public class ProfileActivity extends AppCompatActivity {
     User user;
@@ -42,6 +48,15 @@ public class ProfileActivity extends AppCompatActivity {
 
     @BindView(R.id.tvBody)
     TextView tagline;
+
+    @BindView(R.id.tvFollowersCount)
+    TextView tvNumOfFollowers;
+
+    @BindView(R.id.tvFollowingCount)
+    TextView tvNumFollowing;
+
+    MenuItem miActionProgressItem;
+    SearchView mSearchView;
 
 
     @Override
@@ -67,13 +82,49 @@ public class ProfileActivity extends AppCompatActivity {
         setUserHeader(user);
 
         getSupportActionBar().setTitle("Profile");
+
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_profile, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+
+        // Store instance of the menu item containing progress
+        ProgressBar v = (ProgressBar) getActionView(miActionProgressItem);
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void showProgressBar() {
+
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
+    }
+
 
     public void setUserHeader(User user){
         name.setText(user.getName());
         username.setText("@"+user.getScreenName());
         tagline.setText(user.getDescription());
+        tvNumFollowing.setText(String.valueOf(user.getNumFollowing()));
+
+        tvNumOfFollowers.setText(String.valueOf(user.getNumOfFollowers()));
+
 
         Glide.with(this).load(user.getProfileImageUrl()).fitCenter()
                 .into(profileImg);
