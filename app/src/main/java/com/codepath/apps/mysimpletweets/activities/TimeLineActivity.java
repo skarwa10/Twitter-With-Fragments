@@ -20,6 +20,7 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.codepath.apps.mysimpletweets.adapters.TweetAdapter;
 import com.codepath.apps.mysimpletweets.fragments.HomeTimelineFragment;
+import com.codepath.apps.mysimpletweets.fragments.SmartFragmentStatePagerAdapter;
 import com.codepath.apps.mysimpletweets.fragments.TweetsListFragment;
 import com.codepath.apps.mysimpletweets.fragments.TweetsPagerAdapter;
 import com.codepath.apps.mysimpletweets.utils.FetchTweet;
@@ -66,6 +67,7 @@ public class TimeLineActivity extends AppCompatActivity implements PostTweetFrag
     SharedPreferences draftTweets;
     IncludedLayout includedTabLayout;
     SearchView mSearchView;
+    SmartFragmentStatePagerAdapter adapterViewPager;
 
     static class IncludedLayout {
         @BindView(R.id.sliding_tabs)
@@ -96,7 +98,9 @@ public class TimeLineActivity extends AppCompatActivity implements PostTweetFrag
 
         ButterKnife.bind(includedTabLayout, tabView);
 
-        includedTabLayout.vpPager.setAdapter(new TweetsPagerAdapter(getSupportFragmentManager(),this));
+
+        adapterViewPager = new TweetsPagerAdapter(getSupportFragmentManager());
+        includedTabLayout.vpPager.setAdapter(adapterViewPager);
         includedTabLayout.tabLayout.setupWithViewPager(includedTabLayout.vpPager);
         includedTabLayout.profilePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,8 +219,9 @@ public class TimeLineActivity extends AppCompatActivity implements PostTweetFrag
 
     @Override
     public void onPostTweet(Tweet tweet) {
-        HomeTimelineFragment homeTimelineFragment = HomeTimelineFragment.newInstance(Parcels.wrap(tweet));
+        HomeTimelineFragment homeTimelineFragment = (HomeTimelineFragment) adapterViewPager.getRegisteredFragment(0);
         homeTimelineFragment.addNewTweet(tweet);
+        includedTabLayout.vpPager.setCurrentItem(0);
     }
 
     @Override

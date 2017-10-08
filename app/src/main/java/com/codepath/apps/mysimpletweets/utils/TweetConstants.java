@@ -6,6 +6,7 @@ package com.codepath.apps.mysimpletweets.utils;
 
 public class TweetConstants {
     public static final String POST_TWEET_FRAGMENT_TITLE = "Post Tweet";
+    public static final String HOME_FRAGMENT_TITLE = "Home";
     public static final String USER_OBJ = "User";
     public static final String DRAFT_TWEET_KEY = "Draft Tweet";
     public static final String TWEET_OBJ = "Tweet";

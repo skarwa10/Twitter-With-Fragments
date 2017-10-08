@@ -182,11 +182,6 @@ public abstract class TweetsListFragment extends Fragment implements TweetAdapte
         return tweetList;
     }
 
-    public void addNewTweet(Tweet tweet) {
-        mTweets.add(0, tweet);
-        mTweetAdapter.notifyItemInserted(0);
-        linearLayoutManager.scrollToPosition(0);
-    }
 
     public interface OnProfileImageSelectedListener{
         void onProfileView(User user);

@@ -23,14 +23,17 @@ import cz.msebera.android.httpclient.Header;
 
 public class HomeTimelineFragment extends TweetsListFragment {
     TwitterClient client;
+    int page;
+    String title;
 
     public HomeTimelineFragment() {
     }
 
-    public static HomeTimelineFragment newInstance(Parcelable tweet){
+    public static HomeTimelineFragment newInstance(int page , String title){
         HomeTimelineFragment homeTimelineFragment = new HomeTimelineFragment();
         Bundle args = new Bundle();
-        args.putParcelable(TweetConstants.TWEET_OBJ,tweet);
+        args.putInt("page", page);
+        args.putString("title", title);
         homeTimelineFragment.setArguments(args);
         return homeTimelineFragment;
     }
@@ -38,6 +41,9 @@ public class HomeTimelineFragment extends TweetsListFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        page = getArguments().getInt("page", 0);
+        title = getArguments().getString("title");
 
         client = TwitterApp.getRestClient();
 
@@ -63,4 +69,12 @@ public class HomeTimelineFragment extends TweetsListFragment {
             }
         });
     }
+
+
+    public void addNewTweet(Tweet tweet) {
+        mTweets.add(0, tweet);
+        mTweetAdapter.notifyItemInserted(0);
+        linearLayoutManager.scrollToPosition(0);
+    }
+
 }

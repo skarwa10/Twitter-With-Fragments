@@ -20,13 +20,27 @@ import cz.msebera.android.httpclient.Header;
 
 public class MentionsTimelineFragment extends TweetsListFragment {
     TwitterClient client;
+    private String title;
+    private int page;
 
     public MentionsTimelineFragment() {
+    }
+
+    public static MentionsTimelineFragment newInstance(int page , String title){
+        MentionsTimelineFragment mentionsTimelineFragment = new MentionsTimelineFragment();
+        Bundle args = new Bundle();
+        args.putInt("page", page);
+        args.putString("title", title);
+        mentionsTimelineFragment.setArguments(args);
+        return mentionsTimelineFragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        page = getArguments().getInt("page", 0);
+        title = getArguments().getString("title");
 
         client = TwitterApp.getRestClient();
 
