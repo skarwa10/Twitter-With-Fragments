@@ -1,4 +1,4 @@
-# Project 4 - Twitter
+# Project 4 - Twitter with fragments 
 
 Twitter is an android app that allows a user to view home and mentions timelines, view user profiles with user timelines, as well as compose and post a new tweet. The app utilizes [Twitter REST API](https://developer.twitter.com/en/docs/api-reference-index).
 
@@ -51,7 +51,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://i.imgur.com/0jwCnvi.gif' width='600' title='Video Walkthrough' alt='Video Walkthrough'/>
+<img src='http://i.imgur.com/0jwCnvi.gif' title='Video Walkthrough'  width='400' alt='Video Walkthrough'/>
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -68,7 +68,7 @@ Describe any challenges encountered while building the app.
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2017] [Sonali Karwa]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
